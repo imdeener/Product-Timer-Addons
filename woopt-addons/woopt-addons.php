@@ -138,7 +138,7 @@ function woopt_countdown_shortcode($atts)
     $minutes = $diff->i;
     $seconds = $diff->s;
 
-    $initial_display = "{$days}d {$hours}h {$minutes}m {$seconds}s";
+    $initial_display = "{$days}d : {$hours}h : {$minutes}m : {$seconds}s";
 
     if ($end_date < $now) {
         $initial_display = "EXPIRED";
