@@ -6,7 +6,7 @@ Version: 1.0
 Author: Epik Web
 */
 
-// Admin Menu
+// เพิ่มฟังก์ชันที่จะแสดงเนื้อหาของหน้าตั้งค่า
 
 function woopt_addons_settings_page()
 {
@@ -77,7 +77,7 @@ function woopt_enable_bricks_tag_display()
 
 add_action("admin_init", "woopt_addons_settings");
 
-//Hook ผ่าน save_post action สามารถเพิ่ม action ที่จะถูกเรียกเมื่อมีการเซฟ post ได้
+//Hook ผ่าน save_post action: สามารถเพิ่ม action ที่จะถูกเรียกเมื่อมีการเซฟ post:
 
 add_action('save_post', 'update_woopt_end_time', 10, 2);
 
@@ -123,20 +123,28 @@ function update_woopt_end_time($post_id, $post)
 function woopt_countdown_shortcode($atts)
 {
     if (get_option('woopt_enable_countdown') != 1) {
-        return ''; // หากการตั้งค่าถูกปิดไว้ จะไม่แสดง shortcode
+        return '';
     }
 
     $post_id = get_the_ID();
-    $end_date = get_post_meta($post_id, 'woopt_end_time', true);
+    $end_date_str = get_post_meta($post_id, 'woopt_end_time', true);
+    $end_date = new DateTime($end_date_str);
+    $now = new DateTime();
 
-    if ($end_date) {
-        ob_start();
-    ?>
-<div class="woopt-countdown" data-enddate="<?php echo $end_date; ?>"></div>
-<?php
-        return ob_get_clean();
+    $diff = $end_date->diff($now);
+
+    $days = $diff->d;
+    $hours = $diff->h;
+    $minutes = $diff->i;
+    $seconds = $diff->s;
+
+    $initial_display = "{$days}d {$hours}h {$minutes}m {$seconds}s";
+
+    if ($end_date < $now) {
+        $initial_display = "EXPIRED";
     }
-    return '';
+
+    return "<div class='woopt-countdown' data-enddate='{$end_date_str}'>{$initial_display}</div>";
 }
 add_shortcode('woopt_countdown', 'woopt_countdown_shortcode');
 
