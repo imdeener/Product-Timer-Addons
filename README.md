@@ -4,13 +4,13 @@
 
 #ฟังชั่น
 
-เปิด Product Countdown
+- Product Countdown
 Shortcode: [woopt_countdown]
 
 
-เปิด Product Discount Percentage
+- Product Discount Percentage
 Shortcode: [discount_percentage]
 
 
-เปิด Bricks Builder Tag
+- Bricks Builder Tag
 เพิ่ม Dynamic Data Tag ใน Bricks Builder
