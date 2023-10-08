@@ -46,9 +46,9 @@ function woopt_addons_settings()
 
     add_settings_section("woopt-addons-main-section", null, null, "woopt-addons-settings-group");
 
-    add_settings_field("woopt-enable-countdown", "เปิด Product Countdown <p class='description'>Shortcode: [woopt_countdown]</p>", "woopt_enable_countdown_display", "woopt-addons-settings-group", "woopt-addons-main-section");
-    add_settings_field("woopt-enable-discount-percentage", "เปิด Product Discount Percentage <p class='description'>Shortcode: [discount_percentage]</p>", "woopt_enable_discount_percentage_display", "woopt-addons-settings-group", "woopt-addons-main-section");
-    add_settings_field("woopt-enable-bricks-tag", "เปิด Bricks Builder Tag <p class='description'>เพิ่ม Dynamic Data Tag ใน Bricks Builder</p>", "woopt_enable_bricks_tag_display", "woopt-addons-settings-group", "woopt-addons-main-section");
+    add_settings_field("woopt-enable-countdown", "เปิดใช้ Product Countdown <p class='description'>Shortcode: [woopt_countdown]</p>", "woopt_enable_countdown_display", "woopt-addons-settings-group", "woopt-addons-main-section");
+    add_settings_field("woopt-enable-discount-percentage", "เปิดใช้ Product Discount Percentage <p class='description'>Shortcode: [discount_percentage]</p>", "woopt_enable_discount_percentage_display", "woopt-addons-settings-group", "woopt-addons-main-section");
+    add_settings_field("woopt-enable-bricks-tag", "เปิดใช้ Bricks Builder Tag <p class='description'>เพิ่ม Dynamic Data Tag ใน Bricks Builder</p>", "woopt_enable_bricks_tag_display", "woopt-addons-settings-group", "woopt-addons-main-section");
 }
 
 function woopt_enable_countdown_display()
