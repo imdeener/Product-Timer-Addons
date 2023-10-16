@@ -11,16 +11,16 @@ Author: Epik Web
 function woopt_addons_settings_page()
 {
 ?>
-<div class="wrap">
-    <h1>Product Timer Addons Settings</h1>
-    <form method="post" action="options.php">
-        <?php
+    <div class="wrap">
+        <h1>Product Timer Addons Settings</h1>
+        <form method="post" action="options.php">
+            <?php
             settings_fields("woopt-addons-settings-group");
             do_settings_sections("woopt-addons-settings-group");
             submit_button();
             ?>
-    </form>
-</div>
+        </form>
+    </div>
 <?php
 }
 
@@ -54,24 +54,21 @@ function woopt_addons_settings()
 function woopt_enable_countdown_display()
 {
 ?>
-<input type="checkbox" name="woopt_enable_countdown" value="1"
-    <?php checked(1, get_option('woopt_enable_countdown'), true); ?> />
+    <input type="checkbox" name="woopt_enable_countdown" value="1" <?php checked(1, get_option('woopt_enable_countdown'), true); ?> />
 <?php
 }
 
 function woopt_enable_discount_percentage_display()
 {
 ?>
-<input type="checkbox" name="woopt_enable_discount_percentage" value="1"
-    <?php checked(1, get_option('woopt_enable_discount_percentage'), true); ?> />
+    <input type="checkbox" name="woopt_enable_discount_percentage" value="1" <?php checked(1, get_option('woopt_enable_discount_percentage'), true); ?> />
 <?php
 }
 
 function woopt_enable_bricks_tag_display()
 {
 ?>
-<input type="checkbox" name="woopt_enable_bricks_tag" value="1"
-    <?php checked(1, get_option('woopt_enable_bricks_tag'), true); ?> />
+    <input type="checkbox" name="woopt_enable_bricks_tag" value="1" <?php checked(1, get_option('woopt_enable_bricks_tag'), true); ?> />
 <?php
 }
 
@@ -99,7 +96,7 @@ function update_woopt_end_time($post_id, $post)
                         $acf_date = $timerValue['val'];
                         $date = DateTime::createFromFormat('m/d/Y h:i a', $acf_date);
                         if ($date !== false) { // ตรวจสอบว่าวันที่สามารถสร้างได้
-                            $end_date = $date->format('m/d/Y h:i a');
+                            $end_date = $date->format('m/d/Y H:i'); // ที่นี่เปลี่ยน format เป็น H:i
                             break;
                         }
                     }
@@ -138,7 +135,18 @@ function woopt_countdown_shortcode($atts)
     $minutes = $diff->i;
     $seconds = $diff->s;
 
-    $initial_display = "{$days}d : {$hours}h : {$minutes}m : {$seconds}s";
+    $initial_display = "";
+
+    if ($days > 0) {
+        $initial_display .= "{$days}d : ";
+    }
+    if ($days > 0 || $hours > 0) {
+        $initial_display .= "{$hours}h : ";
+    }
+    if ($days > 0 || $hours > 0 || $minutes > 0) {
+        $initial_display .= "{$minutes}m : ";
+    }
+    $initial_display .= "{$seconds}s";
 
     if ($end_date < $now) {
         $initial_display = "EXPIRED";
@@ -216,7 +224,13 @@ function get_woopt_endtime_value($tag, $post, $context = 'text')
             if (isset($mainValue['timer'])) {
                 foreach ($mainValue['timer'] as $timerValue) {
                     if (isset($timerValue['val'])) {
-                        $end_date = $timerValue['val'];
+                        $dateTime = DateTime::createFromFormat('m/d/Y h:i a', $timerValue['val']);
+                        if ($dateTime === false) {
+                            // Handle error, for example:
+                            error_log('Invalid date format: ' . $timerValue['val']);
+                            return; // or provide a default value or take other error-handling steps
+                        }
+                        $end_date = $dateTime->format('m/d/Y H:i');
                     }
                 }
             }

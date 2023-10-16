@@ -10,7 +10,19 @@ jQuery(document).ready(function($) {
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            $(this).html(days + "d : " + hours + "h : " + minutes + "m : " + seconds + "s ");
+            var display = "";
+            if (days > 0) {
+                display += days + "d : ";
+            }
+            if (days > 0 || hours > 0) {
+                display += hours + "h : ";
+            }
+            if (days > 0 || hours > 0 || minutes > 0) {
+                display += minutes + "m : ";
+            }
+            display += seconds + "s";
+
+            $(this).html(display);
 
             if (distance < 0) {
                 $(this).html("EXPIRED");
